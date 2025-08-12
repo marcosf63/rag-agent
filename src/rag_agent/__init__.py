@@ -6,20 +6,20 @@ A strict document-based question answering system using ChromaDB and pluggable p
 
 from .core.agent import RagAgent
 from .core.exceptions import (
-    RagError,
-    IngestionError,
-    IndexNotReadyError,
-    RetrievalError,
     AnswerNotFoundError,
-    LLMError,
     EmbeddingError,
+    IndexNotReadyError,
+    IngestionError,
+    LLMError,
+    RagError,
+    RetrievalError,
 )
 from .providers.embeddings import OpenAIEmbedding, SentenceTransformerEmbedding
-from .providers.llm import OpenAIChat, OllamaChat
+from .providers.llm import OllamaChat, OpenAIChat
 from .storage.chroma_store import ChromaStore
 from .utils.ingestion import ingest_file, read_text_from_path
-from .utils.text_processing import chunk_text
 from .utils.logging import setup_logger
+from .utils.text_processing import chunk_text
 
 __version__ = "0.1.0"
 

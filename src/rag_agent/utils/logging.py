@@ -7,7 +7,7 @@ import time
 
 class JsonFormatter(logging.Formatter):
     """Custom formatter to output logs in JSON format."""
-    
+
     def format(self, record: logging.LogRecord) -> str:
         base = {
             "level": record.levelname,

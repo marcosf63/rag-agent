@@ -14,13 +14,13 @@ log = setup_logger("rag")
 def read_text_from_path(path: str) -> str:
     """
     Read text content from various file formats.
-    
+
     Args:
         path: Path to the file
-        
+
     Returns:
         Extracted text content
-        
+
     Raises:
         IngestionError: If file reading fails
     """
@@ -52,22 +52,22 @@ def read_text_from_path(path: str) -> str:
 
 
 def ingest_file(
-    path: str, 
-    store: ChromaStore, 
-    source_name: Optional[str] = None, 
-    max_chars: int = 1200, 
-    overlap: int = 120
+    path: str,
+    store: ChromaStore,
+    source_name: Optional[str] = None,
+    max_chars: int = 1200,
+    overlap: int = 120,
 ):
     """
     Ingest a file into the vector store.
-    
+
     Args:
         path: Path to the file to ingest
         store: Vector store instance
         source_name: Optional source name override
         max_chars: Maximum characters per chunk
         overlap: Character overlap between chunks
-        
+
     Raises:
         IngestionError: If ingestion fails
     """
@@ -75,19 +75,23 @@ def ingest_file(
         text = read_text_from_path(path)
         chunks = chunk_text(text, max_chars=max_chars, overlap=overlap)
         metadatas = [
-            {"source": source_name or os.path.basename(path), "chunk_id": i} 
+            {"source": source_name or os.path.basename(path), "chunk_id": i}
             for i in range(len(chunks))
         ]
         store.upsert(chunks, metadatas)
-        log.info("Ingestão concluída", extra={"extra": {
-            "event": "ingest_ok", 
-            "source": source_name or os.path.basename(path), 
-            "chunks": len(chunks)
-        }})
+        log.info(
+            "Ingestão concluída",
+            extra={
+                "extra": {
+                    "event": "ingest_ok",
+                    "source": source_name or os.path.basename(path),
+                    "chunks": len(chunks),
+                }
+            },
+        )
     except Exception as e:
-        log.error("Falha na ingestão", extra={"extra": {
-            "event": "ingest_error", 
-            "err": str(e), 
-            "source": path
-        }})
+        log.error(
+            "Falha na ingestão",
+            extra={"extra": {"event": "ingest_error", "err": str(e), "source": path}},
+        )
         raise IngestionError(str(e))

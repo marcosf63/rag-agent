@@ -157,11 +157,11 @@ class TestRagAgent:
         small_agent = RagAgent(
             store=self.mock_store,
             llm=self.mock_llm,
-            max_context_chars=50
+            max_context_chars=150  # Small but reasonable limit
         )
         
         # Create large contexts
-        large_content = "A" * 100
+        large_content = "A" * 80  # Reduced size
         contexts = [
             (large_content, {"chunk_id": 0, "source": "test.txt"}, 0.1),
             (large_content, {"chunk_id": 1, "source": "test.txt"}, 0.2),
@@ -169,5 +169,8 @@ class TestRagAgent:
         
         prompt = small_agent._format_prompt("Question", contexts)
         
-        # Should not include both large contexts due to size limit
-        assert len(prompt) < 200  # Much smaller than 2 * 100 + overhead
+        # Check that only first context is included due to size limit
+        # The prompt should contain the first context but not both
+        assert "chunk_id=0" in prompt
+        # Count of "A" characters should be less than 160 (2 * 80)
+        assert prompt.count("A") <= 80

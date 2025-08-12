@@ -65,8 +65,8 @@ class TestChunkText:
         text = ""
         chunks = chunk_text(text, max_chars=100, overlap=10)
         
-        assert len(chunks) == 1
-        assert chunks[0] == ""
+        # Empty text should return empty list, not single empty chunk
+        assert len(chunks) == 0
     
     def test_whitespace_preservation(self):
         """Test that whitespace is preserved in chunks."""

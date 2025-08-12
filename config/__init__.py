@@ -1,0 +1,21 @@
+"""Configuration module for RAG Agent."""
+
+from .default_settings import (
+    DEFAULT_EMBEDDING_CONFIG,
+    DEFAULT_LLM_CONFIG,
+    DEFAULT_VECTOR_STORE_CONFIG,
+    DEFAULT_AGENT_CONFIG,
+    DEFAULT_INGESTION_CONFIG,
+    DEFAULT_LOGGING_CONFIG,
+    get_default_config,
+)
+
+__all__ = [
+    "DEFAULT_EMBEDDING_CONFIG",
+    "DEFAULT_LLM_CONFIG", 
+    "DEFAULT_VECTOR_STORE_CONFIG",
+    "DEFAULT_AGENT_CONFIG",
+    "DEFAULT_INGESTION_CONFIG",
+    "DEFAULT_LOGGING_CONFIG",
+    "get_default_config",
+]
